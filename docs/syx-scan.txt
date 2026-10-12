@@ -1,0 +1,9 @@
+
+── DESVIACIÓN RESPECTO A SYX ───────────────────────────────────
+
+   comparado contra    frame4 · light · SYX v5.0.0   (tema: --tema)
+   ficheros            4
+   hallazgos           0   (ninguno)
+
+✅ Nada que reprochar: lo que se pinta es lo que el sistema dice.
+

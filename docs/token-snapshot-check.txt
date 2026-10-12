@@ -1,0 +1,15 @@
+
+── SNAPSHOT DE TOKENS RESUELTOS ────────────────────────────────
+
+   temas × modos                      1 × 2
+   tokens por tema                    1128
+   comunes a los 7 temas (base)       1128
+   cambian entre claro y oscuro       111 de media
+   expresiones sin evaluar            339 de media
+   se quedan SIN valor                18 de media (ver `unresolved`)
+   data URI internados                9
+   contracts/resolved-tokens.json     116 KB
+
+⚠️  1 token(s) referenciados y NUNCA declarados — quien los use se queda sin valor:
+   → --icon-logo
+

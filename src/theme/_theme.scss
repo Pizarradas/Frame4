@@ -1,0 +1,198 @@
+@use 'grid-tokens' as *;
+// ================================================
+// PLANTILLA DE TEMA — EL CONTRATO MÍNIMO
+// ================================================
+// El punto de partida de un tema nuevo: `npm run theme:new <tu-tema>` copia
+// esta carpeta a scss/themes/<tu-tema>/ y pone el nombre en los mixins y en
+// las llamadas de bundle; tú cambias los valores marcados con ✎. Lo que no
+// está aquí lo pone el sistema (superficies, bordes, sombras, escala
+// tipográfica, tintas derivadas…), en claro y en oscuro.
+//
+// Es MÍNIMA a propósito: cada declaración de este fichero la lee algún
+// componente del sistema. Hasta octubre de 2026 la plantilla tenía 72
+// declaraciones y 17 no las leía nadie —los dos colores de marca que decía
+// «customize these» incluidos—, no traía modo oscuro y nada la compilaba. Hoy
+// la compila `npm run check:plantilla` como un tema más, en una copia del
+// árbol, y le pasa las comprobaciones de los temas reales: simetría claro /
+// oscuro, la elección de modo, contraste WCAG en los cuatro estados, las
+// mismas clases que los demás temas, que no le falte nada de lo que todos los
+// temas declaran y que cada línea de aquí tenga lector.
+//
+// Qué puede declarar un tema y qué no: THEMING-RULES.md, «El contrato de un
+// tema». (Auditoría 2026-10 · acción 14)
+// ================================================
+
+@use '../../vendor/syx/scss/abstracts/index' as *;
+
+@mixin theme-frame4 {
+  @include frame4-grid-tokens();
+  :root {
+    // ================================================
+    // 1 · MARCA ✎
+    // ================================================
+    // La paleta del tema, como primitivos propios. Solo los leen los roles de
+    // abajo: un componente nunca ve un primitivo (R01, R11). Los valores de la
+    // plantilla son neutros: pizarra y un ámbar de acento.
+    --primitive-color-brand-300: oklch(0.91 0.16 100); // la marca, aclarada para el oscuro
+    --primitive-color-brand-500: oklch(0.64 0.13 190); // pizarra media
+    --primitive-color-brand-600: oklch(0.50 0.09 190);
+    --primitive-color-brand-700: oklch(0.40 0.07 190); // pizarra oscura
+    --primitive-color-brand-800: oklch(0.29 0.04 190);
+    --primitive-color-accent-500: oklch(0.70 0.18 30); // ámbar
+
+    // Unidad de espacio: todo el ritmo del sistema son múltiplos de ella.
+    --primitive-space-base: 0.5rem;
+
+    // ================================================
+    // 2 · ROLES DE MARCA
+    // ================================================
+    // El relleno de cada rol. La tinta (el mismo color como TEXTO) y la
+    // variante fuerte (como límite de un control) se derivan solas.
+    --semantic-color-primary: var(--primitive-color-brand-700);
+    --semantic-color-secondary: var(--primitive-color-brand-500);
+    --semantic-color-tertiary: var(--primitive-color-accent-500);
+    // El relleno al pasar por encima: un peldaño más oscuro de la marca.
+    --semantic-color-state-hover-primary: var(--primitive-color-brand-800);
+    --semantic-color-state-hover-secondary: var(--primitive-color-brand-600);
+
+    // TINTA SOBRE RELLENO (on-*)
+    // Lo que va ENCIMA de cada relleno (texto del botón, página activa…): la
+    // tinta clara o la oscura del tema, la que dé ≥ 4,5:1. Las que no se
+    // declaran se quedan en el texto inverso. Si cambias un relleno,
+    // `npm run check:contraste` dice qué tinta declarar.
+    // El cuaternario y el quinario son los del sistema (verde y amarillo):
+    // también piden la tinta oscura, y sus rellenos de hover con ellos.
+    --semantic-color-on-secondary: var(--semantic-color-ink-dark);
+    --semantic-color-on-tertiary: var(--semantic-color-ink-dark);
+    --semantic-color-on-quaternary: var(--semantic-color-ink-dark);
+    --semantic-color-on-quinary: var(--semantic-color-ink-dark);
+    --semantic-color-on-state-hover-tertiary: var(--semantic-color-ink-dark);
+    --semantic-color-on-state-hover-quaternary: var(--semantic-color-ink-dark);
+
+    // ================================================
+    // 3 · TEXTO ✎
+    // ================================================
+    // Los grises de la marca en vez de los neutros del sistema. Cada uno
+    // cumple 4,5:1 sobre los fondos claros (check:contraste). En oscuro los
+    // reasigna dark-mode-tokens().
+    --semantic-color-text-primary: oklch(0.262 0.019 256.818);
+    --semantic-color-text-secondary: oklch(0.497 0.033 256.81);
+    --semantic-color-text-tertiary: oklch(0.52 0.03 256.8);
+
+    // ================================================
+    // 4 · FORMA ✎
+    // ================================================
+    --semantic-border-radius-sm: 0.25rem; // casillas
+    --semantic-border-radius-default: 0.375rem; // botones, campos
+    --semantic-border-radius-lg: 0.625rem; // tarjetas
+    // Radio de las superficies de documentación (cita, bloque de código).
+    --theme-radius: var(--semantic-border-radius-default);
+    // Ancho de la columna de contenido.
+    --layout-max-width: calc(150 * var(--primitive-space-base));
+
+    // ================================================
+    // 5 · TIPOGRAFÍA ✎
+    // ================================================
+    // Una familia de las que trae SYX, declarada en theme-frame4-fonts()
+    // con syx-font() (al final). El nombre va seguido de su respaldo métrico.
+    --semantic-font-family-primary: "Space Grotesk", "Space Grotesk Fallback", Arial, sans-serif;
+    --semantic-font-family-primary-bold: var(--semantic-font-family-primary);
+    --semantic-font-family-heading: var(--semantic-font-family-primary);
+
+    // ================================================
+    // 6 · ICONOS
+    // ================================================
+    // Los que leen los componentes (lista, migas, campos, paginación…). La
+    // plantilla los toma de Lucide, que el sistema ya trae; un tema con
+    // iconografía propia pone aquí sus data URI.
+
+    // Identity: mint signal, ink surface, muted mineral neutrals.
+    --primitive-color-frame-ink: oklch(0.17 0.018 240);
+    --primitive-color-frame-surface: oklch(0.22 0.018 240);
+    --primitive-color-frame-paper: oklch(0.96 0.012 95);
+    --primitive-color-frame-muted: oklch(0.78 0.012 240);
+    --primitive-color-frame-line: oklch(0.44 0.018 240);
+    --semantic-color-bg-primary: var(--primitive-color-frame-ink);
+    --semantic-color-bg-secondary: var(--primitive-color-frame-surface);
+    --semantic-color-bg-tertiary: var(--primitive-color-frame-surface);
+    --semantic-color-text-primary: var(--primitive-color-frame-paper);
+    --semantic-color-text-secondary: var(--primitive-color-frame-muted);
+    --semantic-color-text-tertiary: var(--primitive-color-frame-muted);
+    --semantic-color-border-subtle: var(--primitive-color-frame-line);
+    --semantic-color-border-default: var(--primitive-color-frame-line);
+    --semantic-color-border-strong: var(--primitive-color-brand-300);
+    --semantic-color-ink-dark: var(--primitive-color-frame-ink);
+    --semantic-color-ink-light: var(--primitive-color-frame-paper);
+    --semantic-color-primary: var(--primitive-color-brand-300);
+    --semantic-color-primary-text: var(--primitive-color-brand-300);
+    --semantic-color-primary-strong: var(--primitive-color-brand-300);
+    --semantic-color-on-primary: var(--semantic-color-ink-dark);
+    --semantic-color-on-state-hover-primary: var(--semantic-color-ink-light);
+    --semantic-brand-text-lightness: 0.83;
+    --semantic-brand-control-lightness-min: 0.75;
+    --semantic-brand-control-lightness-max: 0.9;
+    --semantic-color-state-hover-tertiary: var(--primitive-color-accent-500);
+    --semantic-color-state-hover-quaternary: var(--primitive-color-green-400);
+    // Calculated grid tokens: Space Grotesk, scanning/default, 320–1440.
+    --primitive-space-base: calc(var(--frame4-unit) / 4);
+    --layout-max-width: 90rem;
+    --layout-gap-1: var(--frame4-gutter);--layout-gap-2: var(--frame4-gutter);--layout-gap-3: var(--frame4-gutter);--layout-gap-4: var(--frame4-gutter);--layout-gap-5: var(--frame4-gutter);
+    --layout-pad-1: var(--frame4-margin);--layout-pad-2: var(--frame4-margin);--layout-pad-3: var(--frame4-margin);--layout-pad-4: var(--frame4-margin);--layout-pad-5: var(--frame4-margin);
+    --semantic-border-radius-default: 0;
+    --semantic-border-radius-lg: 0;
+    --theme-radius: 0;
+    --icon-arrow-default: var(--lc-icon-chevron-right);
+    --icon-arrow-double: var(--lc-icon-chevrons-right);
+    --icon-content-bars: var(--lc-icon-menu);
+    --icon-rrss-email: var(--lc-icon-mail);
+    --icon-user-interface-cancel: var(--lc-icon-x);
+    --icon-user-interface-exclamation-mark: var(--lc-icon-warning);
+    --icon-user-interface-home: var(--lc-icon-home);
+    --icon-user-interface-tick: var(--lc-icon-check);
+  }
+
+  // ================================================
+  // 7 · MODO OSCURO — dos entradas, las dos con dark-mode-tokens()
+  // ================================================
+  // 1. Sin elección del usuario, sigue al sistema operativo… salvo que haya
+  //    elegido claro (`:not([data-theme="light"])`): así elegir claro no
+  //    necesita un bloque que deshaga el oscuro a mano.
+  // 2. Con elección explícita ([data-theme="dark"]), aunque el SO esté en claro.
+  // dark-mode-tokens() reasigna superficies, textos, bordes, sombras y la
+  // luminosidad de las tintas; el tema solo afina su marca, y lo que afine va
+  // en LAS DOS entradas (check:themes y check:modo-claro lo vigilan).
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { @include frame4-dark(); } }
+  :root[data-theme="dark"] { @include frame4-dark(); }
+  :root[data-theme="light"] { color-scheme: light; }
+}
+@mixin frame4-dark {
+ @include dark-mode-tokens();
+ --semantic-color-bg-primary: var(--primitive-color-frame-ink);
+ --semantic-color-bg-secondary: var(--primitive-color-frame-surface);
+ --semantic-color-bg-tertiary: var(--primitive-color-frame-surface);
+ --semantic-color-text-primary: var(--primitive-color-frame-paper);
+ --semantic-color-text-secondary: var(--primitive-color-frame-muted);
+ --semantic-color-text-tertiary: var(--primitive-color-frame-muted);
+ --semantic-color-border-subtle: var(--primitive-color-frame-line);
+ --semantic-color-border-default: var(--primitive-color-frame-line);
+ --semantic-color-primary: var(--primitive-color-brand-300);
+ --semantic-color-primary-text: var(--primitive-color-brand-300);
+ --semantic-color-primary-strong: var(--primitive-color-brand-300);
+ --semantic-color-on-primary: var(--semantic-color-ink-dark);
+}
+// ================================================
+// 8 · FUENTES ✎
+// ================================================
+// Una sola fuente de verdad: _setup.scss y cada bundle-*.scss llaman a este
+// mixin en vez de repetir los @font-face. Una familia por tipografía y un
+// @font-face por peso, solo woff2. Las que trae SYX están en $syx-fonts
+// (abstracts/mixins/_font.scss); una propia se declara peso a peso:
+//   @include font-family("Tu Fuente", "#{$fonts-path}/tu-fuente/TuFuente-Regular", 400, normal);
+// Una que se carga fuera (un <link> a Google Fonts) se registra sin @font-face,
+// con el respaldo que llevará el token detrás ("Public Sans", Arial, sans-serif):
+//   @include syx-font-external("Public Sans", (Arial, sans-serif), "Google Fonts");
+// check:setups falla si un --semantic-font-family-* nombra una familia que no
+// sale de aquí ni es del sistema.
+@mixin theme-frame4-fonts {
+  @include syx-font("Space Grotesk", 400 700);
+}

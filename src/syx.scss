@@ -1,0 +1,9 @@
+@use '../vendor/syx/scss/themes/_base/universal' as *;
+@use '../vendor/syx/scss/themes/_shared/core' as *;
+@use '../vendor/syx/scss/themes/_shared/bundle-core' as *;
+@use 'theme/theme' as *;
+@include universal-values();
+@include theme-frame4();
+@include theme-frame4-fonts();
+@include syx-core(frame4, $helpers: false);
+@include syx-bundle-core(frame4);
