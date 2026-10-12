@@ -1,0 +1,17 @@
+{
+  "name": "frame4",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "sass": "^1.77.0",
+    "postcss": "^8.4.38",
+    "postcss-scss": "^4.0.9",
+    "gsap": "^3.14.2"
+  },
+  "syx": {
+    "theme": "frame4"
+  }
+}
